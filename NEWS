@@ -1,0 +1,11 @@
+* SVAPLSseq version 0.99.0
+
+      - Package submitted to Bioconductor for review
+      
+* SVAPLSseq version 0.99.1
+
+      - Added INDEX file in the vignette, Imported some functions from the R package "stats" 
+      
+* SVAPLSseq version 0.99.2     
+
+      - Subscribed to the Bioc-devel mailing list.
