@@ -7,7 +7,7 @@ Description: The package contains functions that are intended for the
         identification of differentially expressed genes between two
         groups of samples from RNAseq data after adjusting for various
         hidden biological and technical factors of variability.
-Version: 0.99.107
+Version: 1.0.0
 Date: 2016-07-13
 Author: Sutirtha Chakraborty
 Maintainer: Sutirtha Chakraborty <sutirtha_sutir@yahoo.co.in>
