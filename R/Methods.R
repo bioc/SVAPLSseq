@@ -136,6 +136,3 @@ setMethod("print", "svplsTest", function(x){
 cat("The significantly differentially expressed genes are: \n")
 print(x@sig.genes)
 })
-
-
-

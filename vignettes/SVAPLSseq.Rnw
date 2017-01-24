@@ -93,9 +93,9 @@ sim.dat.dg = DGEList(counts = sim.dat)
 sv <- svplsSurr(dat = sim.dat, group = group, max.surrs = 3, controls = NULL)
 sv <- svplsSurr(dat = sim.dat.se, group = group, max.surrs = 3, controls = NULL)
 sv <- svplsSurr(dat = sim.dat.dg, group = group, max.surrs = 3, controls = NULL)
-print(sv)
-surr(sv)             
-prop.vars(sv)        
+slotNames(sv)
+head(surr(sv))             
+head(prop.vars(sv))        
 @
 
 \subsection{The Supervised SVAPLSseq}
@@ -116,9 +116,9 @@ sim.dat.dg = DGEList(counts = sim.dat)
 sv <- svplsSurr(dat = sim.dat, group = group, max.surrs = 3, controls = controls)
 sv <- svplsSurr(dat = sim.dat.se, group = group, max.surrs = 3, controls = controls)
 sv <- svplsSurr(dat = sim.dat.dg, group = group, max.surrs = 3, controls = controls)
-print(sv)
-surr(sv)           
-prop.vars(sv)   
+slotNames(sv)
+head(surr(sv))             
+head(prop.vars(sv))  
 @
 
 \section{Using the estimated hidden effect signatures to detect the truly differentially expressed genes}
@@ -145,9 +145,9 @@ fit = svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
 fit = svplsTest(dat = sim.dat.se, group = group, surr = surr, test = "Wald")
 fit = svplsTest(dat = sim.dat.dg, group = group, surr = surr, test = "Wald")
 
-sig.genes(fit) 
-pvs.unadj(fit)   
-pvs.adj(fit)     
+head(sig.genes(fit))
+head(pvs.unadj(fit))   
+head(pvs.adj(fit))     
 @  
 
 \begin{thebibliography}{}

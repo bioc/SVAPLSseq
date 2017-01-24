@@ -4,8 +4,16 @@
       
 * SVAPLSseq version 0.99.1
 
-      - Added INDEX file in the vignette, Imported some functions from the R package "stats" 
+      - Added INDEX file in the vignette, Imported some functions from the 
+	  R package "stats" 
       
 * SVAPLSseq version 0.99.2     
 
       - Subscribed to the Bioc-devel mailing list.
+
+* SVAPLSseq version 1.1.1
+
+	- Modified the function "svplsSurr.R", Modified the vignette file 
+	  "SVAPLSseq.Rnw", Modified the manual files: "sim.dat.Rd", "svplsTest.Rd",
+	  "svplsSurr.Rd", "sig.genes.Rd", "prop.vars.Rd", "surr.Rd", "pvs.adj.Rd",
+        "pvs.unadj.Rd"

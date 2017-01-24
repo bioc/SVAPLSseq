@@ -81,7 +81,9 @@ data(sim.dat)
 ##Extracting the significant surrogate variables
 group = as.factor(c(rep(1, 10), rep(-1, 10)))
 sv <- svplsSurr(dat = sim.dat, group = group)
-print(sv)
+slotNames(sv)
+head(surr(sv))             
+head(prop.vars(sv)) 
 
 }
 

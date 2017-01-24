@@ -29,6 +29,6 @@ group = as.factor(c(rep(1, 10), rep(-1, 10)))
 sv = svplsSurr(sim.dat, group)
 surr = surr(sv)
 fit = svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
-sig.genes(fit)
+head(sig.genes(fit))
 }
 

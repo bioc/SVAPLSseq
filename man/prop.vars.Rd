@@ -27,6 +27,6 @@ Accessor for the 'prop.vars' slot of a 'svplsSurr' object
 data(sim.dat)
 group = as.factor(c(rep(1, 10), rep(-1, 10)))
 sv = svplsSurr(sim.dat, group)
-prop.vars(sv)
+head(prop.vars(sv))
 }
 

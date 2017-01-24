@@ -66,11 +66,11 @@ surr = surr(sv)
 fit = svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
 
 ##The detected genes, hidden effect adjusted pvalues, FDR-corrected pvalues and the positive genes detected from the fitted model are given by:
-sig.genes(fit)
+head(sig.genes(fit))
 
-pvs.unadj(fit)
+head(pvs.unadj(fit))
 
-pvs.adj(fit)
+head(pvs.adj(fit))
 
 
 }

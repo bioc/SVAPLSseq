@@ -50,11 +50,11 @@
 #' fit = svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
 #'
 #' ##The detected genes, hidden effect adjusted pvalues, FDR-corrected pvalues and the positive genes detected from the fitted model are given by:
-#' sig.genes(fit)
+#' head(sig.genes(fit))
 #'
-#' pvs.unadj(fit)
+#' head(pvs.unadj(fit))
 #'
-#' pvs.adj(fit)
+#' head(pvs.adj(fit))
 #'
 #'
 #' @rdname svplsTest 
@@ -101,7 +101,3 @@ function(dat, phi = function(x) log(x + const), const = 1, group, surr, test = c
    res = new("svplsTest", sig.genes = sig.genes, pvs.unadj = pvs, pvs.adj = pvs.adj)
    return(res)
 }
-
-
-
-

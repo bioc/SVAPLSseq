@@ -1,3 +1,4 @@
+
 #' @title svplsSurr
 #'
 #' @description This function extracts the surrogated estimates of the hidden variables in the 
@@ -61,7 +62,9 @@
 #' ##Extracting the significant surrogate variables
 #' group = as.factor(c(rep(1, 10), rep(-1, 10)))
 #' sv <- svplsSurr(dat = sim.dat, group = group)
-#' print(sv)
+#' slotNames(sv)
+#' head(surr(sv))             
+#' head(prop.vars(sv)) 
 #'
 #' @rdname svplsSurr
 #' @export
@@ -93,24 +96,26 @@ surr.effect = paste("+", paste("sc[, ", paste(as.character(1:ncol(sc)), "]", sep
 if (!is.null(controls)) pvals = anova(lm(as.formula(paste("svd(Y[controls, ])$v[, 1] ~", surr.effect, sep = " "))))[, 5]
 if (is.null(controls)) pvals = anova(lm(as.formula(paste("svd(E)$v[, 1] ~", surr.effect, sep = " "))))[, 5]
 
-surr = sc[, which(pvals < cutoff)]
+index = which(pvals < cutoff)      
+if (length(index) == 0) stop("No Significant Surrogate Variables")      
+if (length(index) > 0){
+   	surr = sc[, index]
 
-vars = apply(surr, 2, var)
-prop.vars = vars/sum(vars)
+	if (length(index) == 1) vars = var(surr)
+	if (length(index) > 1)  vars = apply(surr, 2, var)
+	prop.vars = vars/sum(vars)
 
-if (plot == TRUE){
-   surr.df = as.data.frame(surr[, 1:max.surrs])
-   colnames(surr.df) = paste("surr", as.character(1:max.surrs), sep = "")
-   grp = factor(colnames(surr.df), levels = colnames(surr.df))
+	if (plot == TRUE){
+  	   surr.df = as.data.frame(surr[, 1:max.surrs])
+	   colnames(surr.df) = paste("surr", as.character(1:max.surrs), sep = "")
+	   grp = factor(colnames(surr.df), levels = colnames(surr.df))
 
-   bp.df = data.frame(grp, prop.vars)
-   bp <- qplot(grp, data = bp.df, geom="bar", weight = prop.vars) + scale_x_discrete("Surrogate Variable") + scale_y_continuous("Explained Variance Proportion")
-   bp + theme(axis.text.x = element_text(angle = 0, hjust = 1))
+	   bp.df = data.frame(grp, prop.vars)
+	   bp <- qplot(grp, data = bp.df, geom="bar", weight = prop.vars) + scale_x_discrete("Surrogate Variable") + scale_y_continuous("Explained Variance Proportion")
+	   bp + theme(axis.text.x = element_text(angle = 0, hjust = 1))
+	}
+
+	res = new("svplsSurr", surr = surr, prop.vars = prop.vars)
 }
-
-res = new("svplsSurr", surr = surr, prop.vars = prop.vars)
 return(res)
 }
-
-
-
