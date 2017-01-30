@@ -100,11 +100,11 @@ head(prop.vars(sv))
 
 \subsection{The Supervised SVAPLSseq}
 
-In this variant a submatrix of the original gene expression data is first created corresponding to a set of available control probes 
-that do not have any differential expression between the two groups. Hence, this submatrix is only expected to contain the signatures 
-of the hidden effects in the data. This matrix is then regressed on the original data to extract the surrogate variables for the 
-underlying latent variation. This variant is called by setting the \texttt{controls} argument of the function to the collection of the 
-control probes.
+In this variant a separate expression matrix is first created corresponding to a set of available control genes 
+that do not have any differential effect between the two groups. This matrix is only expected to contain the signatures 
+of the hidden factors in the data. It is then regressed on the original data to extract the surrogate variables for the 
+underlying latent variation. This variant is called by setting the \texttt{controls} argument of the function to a vector of 
+indices for the control genes.
 
 <<input>>=
 data(sim.dat)
@@ -129,7 +129,7 @@ between the two groups. The function provides the user with two testing options:
 of the primary signal effects (group effects) after incorporating the surrogate variables in a linear model and (2) Likelihood ratio 
 test (LRT) comparing two different regression models: one containing  primary signal effects as well as the surrogate variables and 
 the other including only the surrogate variables. A list is returned as the output that contains the genes detected to be differentially
-expressed between the two groups (\texttt{sig.genes}, the uncorrected pvalues from the test (\texttt{pvs.unadj}) and the corresponding 
+expressed between the two groups (\texttt{sig.genes}), the uncorrected pvalues from the test (\texttt{pvs.unadj}) and the corresponding 
 FDR adjusted pvalues (\texttt{pvs.adj}).
 
 <<input>>=
