@@ -48,8 +48,8 @@ data(sim.dat)
 
 ## Fitting a linear model with the surrogate variables and detecting the differentially expressed genes
 group = as.factor(c(rep(1, 10), rep(-1, 10)))
-sv <- svplsSurr(dat = sim.dat, group = group)
+sv <- svplsSurr(dat = sim.dat, group = group, surr.select = "automatic")
 surr = surr(sv)
-fit <- svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
-head(sig.genes(fit))
+fit <- svplsTest(dat = sim.dat, group = group, surr = surr, normalization = "TMM", test = "t-test")
+head(sig.features(fit))
 }
