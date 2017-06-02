@@ -3,22 +3,17 @@
 \docType{methods}
 \name{surr}
 \alias{surr}
-\alias{surr,svplsSurr-method}
+\alias{surr}
 \alias{surr.svplsSurr}
+\alias{surr,svplsSurr-method}
 \title{Accessor for the 'surr' slot of a 'svplsSurr' object}
 \usage{
 surr(object)
 
 \S4method{surr}{svplsSurr}(object)
-
-\S4method{surr}{svplsSurr}(object)
 }
 \arguments{
 \item{object}{a \code{svplsSurr} object}
-}
-\value{
-A matrix of the significant surrogate variables obtained from
-\code{\link{svplsSurr}}
 }
 \description{
 Accessor for the 'surr' slot of a 'svplsSurr' object
@@ -26,7 +21,6 @@ Accessor for the 'surr' slot of a 'svplsSurr' object
 \examples{
 data(sim.dat)
 group = as.factor(c(rep(1, 10), rep(-1, 10)))
-sv = svplsSurr(sim.dat, group)
-head(surr(sv))
+sv = svplsSurr(sim.dat, group, surr.select = "automatic")
+surr(sv)
 }
-

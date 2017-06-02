@@ -3,22 +3,17 @@
 \docType{methods}
 \name{pvs.adj}
 \alias{pvs.adj}
-\alias{pvs.adj,svplsTest-method}
+\alias{pvs.adj}
 \alias{pvs.adj.svplsTest}
+\alias{pvs.adj,svplsTest-method}
 \title{Accessor for the 'pvs.adj' slot of a 'svplsTest' object}
 \usage{
 pvs.adj(object)
 
 \S4method{pvs.adj}{svplsTest}(object)
-
-\S4method{pvs.adj}{svplsTest}(object)
 }
 \arguments{
 \item{object}{a \code{svplsTest} object}
-}
-\value{
-A vector of the FDR-adjusted pvalues for the different genes, 
-obtained from \code{\link{svplsTest}}.
 }
 \description{
 Accessor for the 'pvs.adj' slot of a 'svplsTest' object
@@ -26,9 +21,8 @@ Accessor for the 'pvs.adj' slot of a 'svplsTest' object
 \examples{
 data(sim.dat)
 group = as.factor(c(rep(1, 10), rep(-1, 10)))
-sv = svplsSurr(sim.dat, group)
+sv = svplsSurr(sim.dat, group, surr.select = "automatic")
 surr = surr(sv)
-fit = svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
-head(pvs.adj(fit))
+fit = svplsTest(dat = sim.dat, group = group, surr = surr, normalization = "TMM", test = "t-test")
+pvs.adj(fit)
 }
-

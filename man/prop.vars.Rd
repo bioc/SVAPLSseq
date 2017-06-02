@@ -3,22 +3,17 @@
 \docType{methods}
 \name{prop.vars}
 \alias{prop.vars}
-\alias{prop.vars,svplsSurr-method}
+\alias{prop.vars}
 \alias{pvars.svplsSurr}
+\alias{prop.vars,svplsSurr-method}
 \title{Accessor for the 'prop.vars' slot of a 'svplsSurr' object}
 \usage{
 prop.vars(object)
 
 \S4method{prop.vars}{svplsSurr}(object)
-
-\S4method{prop.vars}{svplsSurr}(object)
 }
 \arguments{
 \item{object}{a \code{svplsSurr} object}
-}
-\value{
-A vector of the variance proportions in the data space explained by the 
-significant surrogate variables obtained from \code{\link{svplsSurr}}
 }
 \description{
 Accessor for the 'prop.vars' slot of a 'svplsSurr' object
@@ -26,7 +21,6 @@ Accessor for the 'prop.vars' slot of a 'svplsSurr' object
 \examples{
 data(sim.dat)
 group = as.factor(c(rep(1, 10), rep(-1, 10)))
-sv = svplsSurr(sim.dat, group)
-head(prop.vars(sv))
+sv = svplsSurr(sim.dat, group, surr.select = "automatic")
+prop.vars(sv)
 }
-

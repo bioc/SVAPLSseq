@@ -4,7 +4,7 @@
 \documentclass[12pt]{article}
 <<echo=FALSE>>=
 options(width=65)
-@ 
+@
 <<style-Sweave, eval=TRUE, echo=FALSE, results=tex>>=
 BiocStyle::latex()
 @
@@ -15,7 +15,7 @@ BiocStyle::latex()
 \SweaveOpts{concordance=TRUE}
 \title{SVAPLSseq: An R package to correct for hidden sources of variability in differential gene expression studies based on RNAseq data}
 \author{Sutirtha Chakraborty$^1$* \\
-$^1$National Institute of Biomedical Genomics 
+$^1$National Institute of Biomedical Genomics
 *email: \texttt{sc4@nibmg.ac.in}}
 \date{Modified: June 25, 2016  Compiled: \today}
 \maketitle
@@ -23,41 +23,43 @@ $^1$National Institute of Biomedical Genomics
 \tableofcontents
 \section{Overview}
 
-The R package \Rpackage{SVAPLSseq} contains functions that are intended for the extraction and correction of different types of hidden 
-biological and technical variables that could potentially generate latent heterogeneity in RNAseq data on gene expression. The complexity 
-of the sequencing workflow creates a number of technical artefacts along with the inherent biological variability stemming from the 
-unknown gene and sample profiles. The package aims to provide the users with a flexible and generalized framework to identify these 
-hidden effects and adjust for them in order to re-estimate the primary signals of group-specific differential gene expression with 
-higher power and accuracy. The underlying method operates by implementing a non-linear partial least squares regression algorithm on 
-two multivariate random matrices constructed from the data. To that end two methodological variants are provided in this package: 
-(1) Unsupervised SVAPLSseq and (2) Supervised SVAPLSseq. Both these variants yield a set of surrogate variables that are then tested 
-for statistical significance in order to detect the important signatures of latent variability in the data. The package also provides 
-an added functionality in terms of incorporating these extracted signatures in a linear regression framework and estimating the group-
-specific differential expression effects. For this purpose two different options are provided: (a) Wald test that uses the R packages 
-``edgeR'' and ``limma'' and (b) Likelihood ratio test. 
+The R package \Rpackage{SVAPLSseq} contains functions that are intended for the extraction and correction of different types of hidden
+biological and technical variables that could potentially generate latent heterogeneity in RNAseq data on gene expression. The complexity
+of the sequencing workflow creates a number of technical artefacts along with the inherent biological variability stemming from the
+unknown gene and sample profiles. The package aims to provide the users with a flexible and generalized framework to identify these
+hidden effects and adjust for them in order to re-estimate the primary signals of group-specific differential gene expression with
+higher power and accuracy. The underlying method operates by implementing a non-linear partial least squares regression algorithm on
+two multivariate random matrices constructed from the data. To that end two methodological variants are provided in this package:
+(1) Unsupervised SVAPLSseq and (2) Supervised SVAPLSseq. Both these variants yield a set of optimal surrogate variables in order to
+detect the important signatures of latent variability in the data. The package also provides an added functionality in terms of
+incorporating these extracted signatures in a linear regression framework and estimating the group-specific differential expression effects.
+For this purpose two different options are provided: (a) t-test that uses the R packages ``edgeR'' and ``limma'' and (b) Likelihood ratio test.
 
 This document provides a tutorial to use the package for:
- 
+
 \begin{itemize}
 \item Formatting the data for use in the package.\\
 \item Extracting the signatures of the hidden effects in the data.\\
-\item Using the estimated hidden effect signatures to detect the truly differentially expressed genes. 
+\item Using the estimated hidden effect signatures to detect the truly differentially expressed genes.
 \end{itemize}
 
 \section{Formatting the data for use in the package}
 
-The starting step for using the package is to set up the RNAseq expression data in an appropriate format. The input data should be in 
-the form of either a count matrix object or a 'SummarizedExperiment' or a 'DGEList' object. The object will contain a feature matrix 
-that will list the features (genes/transcripts) along the rows and samples along the columns. This matrix will contain the read count 
-values for the features corresponding to the different samples. In addition, a separate factor variable should be designed that will 
-keep track of the group each sample belongs (e.g. ``treated'' and ``untreated'', ``Normal'' and ``Cancer''). This variable will enable 
-the estimation of the primary signal for group-specific differential expression of the features.
+The starting step for using the package is to set up the RNAseq expression data in an appropriate format. The input data should be in
+the form of either a count matrix object or a 'SummarizedExperiment' or a 'DGEList' object. The object will contain a feature expression matrix
+that will list the features (genes/transcripts) along the rows and samples along the columns. This matrix will store the raw integer read count
+values measuring the expression levels of the features in the different samples. In addition, a separate factor variable should be designed that will
+keep track of the group each sample belongs (e.g. ``treated'' and ``untreated'', ``Normal'' and ``Cancer''). This variable will enable
+the estimation of the primary signal for group-specific differential expression of the features. The package contains a simulated RNAseq
+expression count dataset \texttt{sim.dat} on 1000 genes over 20 samples distributed equally into two groups 1 and 2 [samples (S1, S2...S10)
+belonging to group 1 and samples (S11, S12...S20) belonging to group 2].
 
 <<input>>=
 library(SummarizedExperiment)
 library(SVAPLSseq)
 library(edgeR)
 
+##Loading the simulated RNAseq gene expression count dataset 'sim.dat'
 data(sim.dat)
 dat = SummarizedExperiment(assays = SimpleList(counts = sim.dat))
 dat = DGEList(counts = sim.dat)
@@ -66,22 +68,23 @@ sim.dat[1:6, c(1:3, 11:13)]
 
 \section{Extracting the signatures of the hidden effects in the data}
 
-The package contains a function \Rfunction{svplsSurr} that extracts the signatures of latent variability (surrogate variables) in the 
-data by using a multivariate non-linear partial least squares (NPLS) algorithm (Boulesteix and Strimmer 2007). The function takes the 
-original read count matrix of feature expression values along with a factor variable indicating the group of each sample as input. 
-Moreover, it allows the user to specify a certain number of surrogate variables (\texttt{max.surrs}) that will be extracted from the 
-data. These variables are further tested for statistical significance to generate an optimal set of significant surrogate variables 
-capturing the latent variation in the data. The function returns a matrix with these variables along the columns and a vector 
-containing the proportions of the total variance in the data space that are explained by them.\\
+The package contains a function \Rfunction{svplsSurr} that extracts the signatures of latent variability (surrogate variables) in the
+data by using a multivariate non-linear partial least squares (NPLS) algorithm (Boulesteix and Strimmer 2007). The function takes the
+original read count matrix of feature expression values along with a factor variable indicating the group of each sample as input.
+Moreover, it allows the user to specify a certain number of surrogate variables (\texttt{max.surrs}) that will be extracted from the
+data. A set of optimal surrogate variables is selected from them, either manually (user-specifiable by setting \texttt{surr.select="manual"} and
+\texttt{opt.surrs} to the vector of indices of the surrogate variables that are to be chosen) or by performing a statistical test with coefficients
+that are estimated from a linear regression model (by setting \texttt{surr.select="automatic"}). The function returns a matrix with these optimal
+surrogate variables along the columns and a vector containing the proportions of the total variation in the data space that are explained by them.\\
 
 \noindent
-The function provides the user with two methodological variants: (1) The Unsupervised SVAPLSseq and (2) The Supervised SVAPLSseq. 
+The function provides the user with two methodological variants: (1) The Unsupervised SVAPLSseq and (2) The Supervised SVAPLSseq.
 Details on these two variants and their usage on an RNAseq gene expression data are provided below:
 
 \subsection{The Unsupervised SVAPLSseq}
 
-This version of the method regresses the primary signal corrected residual matrix on the original gene expression data matrix via NPLS. 
-The estimated scores in the data space are considered as the surrogate variables that are further tested for statistical significance. 
+This version of the method regresses the primary signal corrected residual matrix on the original feature expression data matrix via NPLS.
+The estimated PLS scores in the original data space are considered as the surrogate variables that are further tested for statistical significance.
 Setting the \texttt{controls} argument of the function to \texttt{NULL} starts this version.
 
 <<input>>=
@@ -90,21 +93,21 @@ group = as.factor(c(rep(1, 10), rep(-1, 10)))
 sim.dat.se = SummarizedExperiment(assays = SimpleList(counts = sim.dat))
 sim.dat.dg = DGEList(counts = sim.dat)
 
-sv <- svplsSurr(dat = sim.dat, group = group, max.surrs = 3, controls = NULL)
-sv <- svplsSurr(dat = sim.dat.se, group = group, max.surrs = 3, controls = NULL)
-sv <- svplsSurr(dat = sim.dat.dg, group = group, max.surrs = 3, controls = NULL)
+sv <- svplsSurr(dat = sim.dat.se, group = group, max.surrs = 3, surr.select =
+                  "automatic", controls = NULL)
+
 slotNames(sv)
-head(surr(sv))             
-head(prop.vars(sv))        
+head(surr(sv))
+head(prop.vars(sv))
 @
 
 \subsection{The Supervised SVAPLSseq}
 
-In this variant a separate expression matrix is first created corresponding to a set of available control genes 
-that do not have any differential effect between the two groups. This matrix is only expected to contain the signatures 
-of the hidden factors in the data. It is then regressed on the original data to extract the surrogate variables for the 
-underlying latent variation. This variant is called by setting the \texttt{controls} argument of the function to a vector of 
-indices for the control genes.
+In this variant a separate expression matrix is first created corresponding to a set of available control features (control genes,
+transcripts, spike-ins) that do not have any differential effect between the two groups. This matrix is only expected to contain the signatures
+of the hidden factors in the data. The original data is then regressed on it via NPLS to extract the surrogate variables for the
+underlying latent variation. This variant is called by setting the \texttt{controls} argument of the function to a vector of
+indices marking the control features.
 
 <<input>>=
 data(sim.dat)
@@ -113,24 +116,24 @@ group = as.factor(c(rep(1, 10), rep(-1, 10)))
 sim.dat.se = SummarizedExperiment(assays = SimpleList(counts = sim.dat))
 sim.dat.dg = DGEList(counts = sim.dat)
 
-sv <- svplsSurr(dat = sim.dat, group = group, max.surrs = 3, controls = controls)
-sv <- svplsSurr(dat = sim.dat.se, group = group, max.surrs = 3, controls = controls)
-sv <- svplsSurr(dat = sim.dat.dg, group = group, max.surrs = 3, controls = controls)
+sv <- svplsSurr(dat = sim.dat.se, group = group, max.surrs = 3, surr.select =
+                  "automatic", controls = controls)
+
 slotNames(sv)
-head(surr(sv))             
-head(prop.vars(sv))  
+head(surr(sv))
+head(prop.vars(sv))
 @
 
-\section{Using the estimated hidden effect signatures to detect the truly differentially expressed genes}
+\section{Using the estimated hidden effect signatures to detect the true differentially expressed features}
 
-The package contains another function \Rfunction{svplsTest} that incorporates the significant surrogate variables estimated by the 
-function \Rfunction{svplsSurr} inside a regression framework in order to test for the genes that are truly differentially expressed 
-between the two groups. The function provides the user with two testing options: (1) Wald test based on the regression coefficients 
-of the primary signal effects (group effects) after incorporating the surrogate variables in a linear model and (2) Likelihood ratio 
-test (LRT) comparing two different regression models: one containing  primary signal effects as well as the surrogate variables and 
-the other including only the surrogate variables. A list is returned as the output that contains the genes detected to be differentially
-expressed between the two groups (\texttt{sig.genes}), the uncorrected pvalues from the test (\texttt{pvs.unadj}) and the corresponding 
-FDR adjusted pvalues (\texttt{pvs.adj}).
+The package contains another function \Rfunction{svplsTest} that incorporates the significant surrogate variables estimated by the
+function \Rfunction{svplsSurr} inside a regression framework in order to test for the features that are truly differentially expressed
+between the two groups. The function provides the user with two testing options: (1) t-test based on the regression coefficients
+of the primary signal effects (group effects) after incorporating the surrogate variables in a linear model and (2) Likelihood ratio
+test (LRT) comparing two different regression models: one containing  primary signal effects as well as the optimal surrogate variables
+and the other including only the optimal surrogate variables. A list is returned as the output that contains the features detected to be
+differentially expressed between the two groups (\texttt{sig.features}), the uncorrected pvalues from the test (\texttt{pvs.unadj}) and
+the corresponding FDR adjusted pvalues (\texttt{pvs.adj}).
 
 <<input>>=
 data(sim.dat)
@@ -141,18 +144,17 @@ surr = surr(sv)
 sim.dat.se = SummarizedExperiment(assays = SimpleList(counts = sim.dat))
 sim.dat.dg = DGEList(counts = sim.dat)
 
-fit = svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
-fit = svplsTest(dat = sim.dat.se, group = group, surr = surr, test = "Wald")
-fit = svplsTest(dat = sim.dat.dg, group = group, surr = surr, test = "Wald")
+fit = svplsTest(dat = sim.dat.se, group = group, surr = surr, normalization =
+                  "TMM", test = "t-test")
 
-head(sig.genes(fit))
-head(pvs.unadj(fit))   
-head(pvs.adj(fit))     
-@  
+head(sig.features(fit))
+head(pvs.unadj(fit))
+head(pvs.adj(fit))
+@
 
 \begin{thebibliography}{}
-\bibitem{boule1} 
-Boulesteix, A. L. and Strimmer, K. (2007) Partial least squares: a versatile tool for the analysis of high-dimensional genomic data. 
+\bibitem{boule1}
+Boulesteix, A. L. and Strimmer, K. (2007) Partial least squares: a versatile tool for the analysis of high-dimensional genomic data.
 {\it Briefings in Bioinformatics} {\bf 8(1),} 32--44.
 \end{thebibliography}
 

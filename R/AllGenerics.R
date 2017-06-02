@@ -14,6 +14,6 @@ setGeneric("pvs.unadj", function(object) standardGeneric("pvs.unadj"))
 #' @export
 setGeneric("pvs.adj", function(object) standardGeneric("pvs.adj"))
 
-#' @rdname sig.genes
+#' @rdname sig.features
 #' @export
-setGeneric("sig.genes", function(object) standardGeneric("sig.genes"))
+setGeneric("sig.features", function(object) standardGeneric("sig.features"))

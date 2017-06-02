@@ -7,13 +7,12 @@
 \description{
 The \code{svplsTest} class. An object of this class contains the following three slots:
 	
-pvs.unadj The uncorrected pvalues corresponding to the genes after 
+pvs.unadj The uncorrected pvalues corresponding to the features after 
 adjusting for the signatures of hidden variability.
 
 pvs.adj The multiple hypothesis corrected pvalues after adjusting
-for the signatures of hidden variability.
+for the signatures of hidden variability in the data.
 
-sig.genes The genes detected to be significantly differentially 
+sig.features The features detected to be significantly differentially 
 expressed between the two groups.
 }
-

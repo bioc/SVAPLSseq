@@ -1,19 +1,19 @@
 * SVAPLSseq version 0.99.0
 
       - Package submitted to Bioconductor for review
-      
+
 * SVAPLSseq version 0.99.1
 
-      - Added INDEX file in the vignette, Imported some functions from the 
-	  R package "stats" 
-      
-* SVAPLSseq version 0.99.2     
+      - Added INDEX file in the vignette, Imported some functions from the
+	  R package "stats"
+
+* SVAPLSseq version 0.99.2
 
       - Subscribed to the Bioc-devel mailing list.
 
 * SVAPLSseq version 1.1.1
 
-	- Modified the function "svplsSurr.R", Modified the vignette file 
+	- Modified the function "svplsSurr.R", Modified the vignette file
 	  "SVAPLSseq.Rnw", Modified the manual files: "sim.dat.Rd", "svplsTest.Rd",
 	  "svplsSurr.Rd", "sig.genes.Rd", "prop.vars.Rd", "surr.Rd", "pvs.adj.Rd",
         "pvs.unadj.Rd"
@@ -21,3 +21,10 @@
 * SVAPLSseq version 1.1.2
 
 	- Modified the vignette file "SVAPLSseq.Rnw"
+
+* SVAPLSseq version 1.3.1
+
+  - Modified the DESCRIPTION file, Modified the vignette file "SVAPLSseq.Rnw",
+    Modified the manual files: "sim.dat.Rd", "svplsTest.Rd", "svplsSurr.Rd", 
+    "sig.genes.Rd", "prop.vars.Rd", "surr.Rd", "pvs.adj.Rd","pvs.unadj.Rd", 
+    Modified the R Script files: "svplsSurr.R" and "svplsTest.R".

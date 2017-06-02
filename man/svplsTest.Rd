@@ -4,69 +4,78 @@
 \alias{svplsTest}
 \title{svplsTest}
 \usage{
-svplsTest(dat, phi = function(x) log(x + const), const = 1, group, surr,
-  test = c("Wald", "LRT"), mht.method = "BH", fdr.level = 0.05,
+svplsTest(dat, phi = function(x) log(x + const), const = 1,
+  normalization = c("TMM", "RLE", "upperquartile", "none"), group, surr,
+  test = c("t-test", "LRT"), mht.method = "BH", fdr.level = 0.05,
   parallel = FALSE, num.cores = NULL)
 }
 \arguments{
-\item{dat}{A gene expression count matrix or a 'SummarizedExperiment' object 
-or a 'DGEList' object.}
+\item{dat}{The original feature expression count matrix.}
 
-\item{phi}{The transforming function to be applied on the original gene 
+\item{phi}{The transforming function to be applied on the original feature
 expression count data (set to be log function with an offset \code{const}).}
 
 \item{const}{The offset parameter for the transforming function \code{phi}
 (set to 1 by default).}
 
-\item{group}{a factor representing the sample indices belonging to the two 
+\item{normalization}{The method to use for normalizing the RNAseq feature
+expression count data (options are "TMM", "RLE", "upperquartile" or "none").}
+
+\item{group}{a factor representing the sample indices belonging to the two
 different groups.}
 
 \item{surr}{A \code{data.frame} of the significant surrogate variables.}
 
-\item{test}{The test to be used for detecting the differentially expressed 
-genes. Options are "Wald" (Wald test with the gene-specific estimated group
-effects after asjusting for the surrogate variables) and "LRT" (Likelihood 
-Ratio Test).}
+\item{test}{The test to be used for detecting the differentially expressed
+features. Options are "t-test" and "Likelihood Ratio Test (LRT)".}
 
-\item{mht.method}{The method to be used for the multiple hypothesis 
+\item{mht.method}{The method to be used for the multiple hypothesis
 correction (set to the Benjamini-Hochberg procedure ("BH") by default).}
 
-\item{fdr.level}{The specified level of the False Discovery Rate (FDR) for 
+\item{fdr.level}{The specified level of the False Discovery Rate (FDR) for
 the multiple hypothesis testing (set to 0.05 by default).}
 
-\item{parallel}{Logical, indicating if the computations should be 
+\item{parallel}{Logical, indicating if the computations should be
 parallelized or not (set to \code{FALSE} by default).}
 
-\item{num.cores}{The requested number of cores to be used in the parallel 
-computations inside the function (used only when \code{parallel} is 
+\item{num.cores}{The requested number of cores to be used in the parallel
+computations inside the function (used only when \code{parallel} is
 \code{TRUE}, \code{NULL} by default).}
 }
 \value{
-An \code{\link{svplsTest}} object.
+pvs.unadj The uncorrected pvalues corresponding to the genes after
+adjusting for the signatures of hidden variability.
+
+pvs.adj The multiple hypothesis corrected pvalues after adjusting
+for the signatures of hidden variability.
+
+sig.features The features detected to be significantly differentially
+expressed between the two groups.
 }
 \description{
 This function incorporates the significant surrogate variables
-returned by the function \code{svplsSurr} in a linear model along with the 
-group variable in order to estimate the group effect more accurately. The 
-reestimated primary signal (group) effects are then used to test the genes 
-for differential expression. The resulting pvalues are further corrected 
-for multiple hypothesis testing at a prespecified FDR level. The 
-significantly differentially expressed genes are finally returned along 
+returned by the function \code{svplsSurr} in a linear model along with the
+group variable in order to estimate the group effects more accurately. The
+reestimated primary signals (group effects) are then used to test the features
+for differential expression. The resulting pvalues are further corrected
+for multiple hypothesis testing at a prespecified FDR level. The
+significantly differentially expressed features are finally returned along
 with their uncorrected and corrected pvalues.
 }
 \examples{
-##Loading the simulated dataset
+##Loading a simulated RNAseq gene expression count dataset
 data(sim.dat)
 
-##Fitting a linear model with the surrogate variables and detecting the 
+##Fitting a linear model with the surrogate variables and detecting the
 ##differentially expressed genes
 group = as.factor(c(rep(1, 10), rep(-1, 10)))
-sv <- svplsSurr(dat = sim.dat, group = group)
+sv <- svplsSurr(dat = sim.dat, group = group, surr.select = "automatic")
 surr = surr(sv)
-fit = svplsTest(dat = sim.dat, group = group, surr = surr, test = "Wald")
+fit = svplsTest(dat = sim.dat, group = group, surr = surr, normalization = "TMM", test = "t-test")
 
-##The detected genes, hidden effect adjusted pvalues, FDR-corrected pvalues and the positive genes detected from the fitted model are given by:
-head(sig.genes(fit))
+##The detected genes, hidden effect adjusted pvalues, FDR-corrected pvalues and the positive genes 
+##detected from the fitted model are given by:
+head(sig.features(fit))
 
 head(pvs.unadj(fit))
 
@@ -74,4 +83,3 @@ head(pvs.adj(fit))
 
 
 }
-

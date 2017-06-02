@@ -7,9 +7,8 @@
 \description{
 The \code{svplsSurr} class. An object of this class contains the following two slots:
 
-surr A \code{data.frame} of the significant surrogate variables.
+surr A \code{data.frame} of the optimal surrogate variables.
 
-prop.vars A vector of the variance proportions explained by the
- variables in \code{surr}.	
+prop.vars A vector of the variance proportions in the data space that are
+	    explained by the variables in \code{surr}.	
 }
-
