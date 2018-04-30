@@ -9,7 +9,7 @@ Description: The package contains functions that are intended for
 	  and using them to perform an improved differential expression
     	  analysis for a set of features (genes, transcripts) between
 	  two specified biological groups.	 
-Version: 1.5.0
+Version: 1.6.0
 Date: 2017-05-31
 Author: Sutirtha Chakraborty
 Maintainer: Sutirtha Chakraborty <sutirtha_sutir@yahoo.co.in>
