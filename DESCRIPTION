@@ -9,7 +9,7 @@ Description: The package contains functions that are intended for
 	  and using them to perform an improved differential expression
     	  analysis for a set of features (genes, transcripts) between
 	  two specified biological groups.	 
-Version: 1.9.0
+Version: 1.9.1
 Date: 2017-05-31
 Author: Sutirtha Chakraborty
 Maintainer: Sutirtha Chakraborty <sutirtha_sutir@yahoo.co.in>
@@ -18,7 +18,7 @@ Imports: methods, stats, SummarizedExperiment, edgeR, ggplot2, limma,
         lmtest, parallel, pls
 Suggests: BiocStyle
 License: GPL-3
-biocViews: GeneExpression, RNASeq, Normalization, BatchEffect
+biocViews: ImmunoOncology, GeneExpression, RNASeq, Normalization, BatchEffect
 Collate: AllClasses.R AllGenerics.R Methods.R svplsSurr.R svplsTest.R
 NeedsCompilation: no
 RoxygenNote: 6.0.1
